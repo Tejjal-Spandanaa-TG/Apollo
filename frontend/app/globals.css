@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 248, 250, 252;
+  --primary-color: #02475b;
+  --secondary-color: #00b38e;
+  --accent-color: #ff7e5f;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+}
+
+@layer base {
+  h1 {
+    @apply text-2xl font-bold md:text-3xl;
+  }
+  h2 {
+    @apply text-xl font-semibold md:text-2xl;
+  }
+  h3 {
+    @apply text-lg font-medium md:text-xl;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-[#00b38e] text-white rounded-md hover:bg-[#009e7f] transition-colors;
+  }
+  .btn-secondary {
+    @apply px-4 py-2 bg-white text-[#02475b] border border-[#02475b] rounded-md hover:bg-gray-50 transition-colors;
+  }
+  .card {
+    @apply bg-white rounded-lg shadow-md p-4;
+  }
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00b38e];
+  }
+  .select-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#00b38e];
+  }
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  .badge-primary {
+    @apply bg-[#e6f7f4] text-[#00b38e];
+  }
+  .badge-secondary {
+    @apply bg-[#e6f0f3] text-[#02475b];
+  }
+}
+

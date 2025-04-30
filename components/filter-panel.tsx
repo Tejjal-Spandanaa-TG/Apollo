@@ -1,0 +1,164 @@
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Filter, X } from "lucide-react"
+
+interface FilterPanelProps {
+  filters: {
+    city: string
+    speciality: string
+    minExperience: string
+    maxExperience: string
+    minFee: string
+    maxFee: string
+    sortBy: string
+    sortOrder: string
+  }
+  onFilterChange: (filters: any) => void
+  cities: string[]
+  specialities: string[]
+}
+
+export default function FilterPanel({ filters, onFilterChange, cities, specialities }: FilterPanelProps) {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    onFilterChange({ ...filters, [name]: value })
+  }
+
+  const clearFilters = () => {
+    onFilterChange({
+      city: "",
+      speciality: "",
+      minExperience: "",
+      maxExperience: "",
+      minFee: "",
+      maxFee: "",
+      sortBy: "rating",
+      sortOrder: "desc",
+    })
+  }
+
+  const toggleFilters = () => {
+    setIsOpen(!isOpen)
+  }
+
+  return (
+    <div className="card sticky top-4">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold flex items-center">
+          <Filter size={18} className="mr-2" /> Filters
+        </h2>
+
+        <div className="flex gap-2">
+          <button onClick={clearFilters} className="text-sm text-blue-600 hover:text-blue-800">
+            Clear All
+          </button>
+
+          <button className="lg:hidden" onClick={toggleFilters}>
+            {isOpen ? <X size={20} /> : <Filter size={20} />}
+          </button>
+        </div>
+      </div>
+
+      <div className={`space-y-4 ${isOpen ? "block" : "hidden lg:block"}`}>
+        {/* City Filter */}
+        <div>
+          <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+            City
+          </label>
+          <select id="city" name="city" className="select-field" value={filters.city} onChange={handleInputChange}>
+            <option value="">All Cities</option>
+            {cities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Speciality Filter */}
+        <div>
+          <label htmlFor="speciality" className="block text-sm font-medium text-gray-700 mb-1">
+            Speciality
+          </label>
+          <select
+            id="speciality"
+            name="speciality"
+            className="select-field"
+            value={filters.speciality}
+            onChange={handleInputChange}
+          >
+            <option value="">All Specialities</option>
+            {specialities.map((speciality) => (
+              <option key={speciality} value={speciality}>
+                {speciality}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Experience Range */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Experience (Years)</label>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <input
+                type="number"
+                name="minExperience"
+                placeholder="Min"
+                className="input-field"
+                value={filters.minExperience}
+                onChange={handleInputChange}
+                min="0"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                name="maxExperience"
+                placeholder="Max"
+                className="input-field"
+                value={filters.maxExperience}
+                onChange={handleInputChange}
+                min={filters.minExperience || "0"}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Fee Range */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Consultation Fee (₹)</label>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <input
+                type="number"
+                name="minFee"
+                placeholder="Min"
+                className="input-field"
+                value={filters.minFee}
+                onChange={handleInputChange}
+                min="0"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                name="maxFee"
+                placeholder="Max"
+                className="input-field"
+                value={filters.maxFee}
+                onChange={handleInputChange}
+                min={filters.minFee || "0"}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
